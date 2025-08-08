@@ -1,0 +1,99 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &-icon {
+      background: linear-gradient(45deg, #ff512f, #dd2476);
+      color: white;
+      border-radius: 8px;
+      padding: 0.5rem 0.5rem 0.2rem 0.5rem;
+      margin-right: 0.5rem;
+    }
+
+    &-text {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+  }
+
+  &__links a {
+    margin: 0 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text);
+
+    &.active {
+      color: var(--primary-color);
+    }
+
+    &:hover {
+      color: #999999;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0 6px;
+    font-size: 0.75rem;
+  }
+
+  &__mobile {
+    position: fixed;
+    background: #222;
+    padding: 1rem;
+    width: 100%;
+    z-index: 11;
+
+    &-links a {
+      display: block;
+      padding: 0.75rem 0;
+      color: white;
+      text-decoration: none;
+
+      &.active {
+        color: #ffeb3b;
+      }
+    }
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .hide-on-mobile {
+    display: flex;
+  }
+
+  .show-on-mobile {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .hide-on-mobile {
+      display: none;
+    }
+    .show-on-mobile {
+      display: inline-flex;
+    }
+  }
+}

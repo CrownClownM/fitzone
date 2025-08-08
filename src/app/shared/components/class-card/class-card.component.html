@@ -1,0 +1,60 @@
+<mat-card class="class-card">
+  <div class="image-container">
+    <img [src]="fitnessClass.image" [alt]="fitnessClass.name" />
+
+    <span class="intensity-badge" [ngStyle]="{ 'background-color': intensityColors[fitnessClass.intensity] }">
+      {{ intensityLabels[fitnessClass.intensity] }}
+    </span>
+
+    <div class="price-badge">
+      <strong>{{ fitnessClass.price | currency : 'COP' : 'symbol-narrow' : '.0-0' }}</strong>
+    </div>
+  </div>
+
+  <mat-card-header>
+    <div mat-card-avatar class="rating">
+      <mat-icon color="accent">star</mat-icon>
+    </div>
+    <mat-card-title>{{ fitnessClass.name }}</mat-card-title>
+    <mat-card-subtitle>{{ categoryLabels[fitnessClass.category] }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="description">{{ fitnessClass.description }}</p>
+
+    <div class="info-row">
+      <mat-icon>schedule</mat-icon>
+      <span>{{ fitnessClass.duration }} min • {{ fitnessClass.instructor }}</span>
+    </div>
+
+    <div class="info-row">
+      <mat-icon>place</mat-icon>
+      <span>{{ center?.name }}</span>
+    </div>
+
+    <div class="info-row">
+      <mat-icon>group</mat-icon>
+      <span>{{ availableSpots }} plazas disponibles</span>
+    </div>
+
+    <div class="occupancy">
+      <div class="label">
+        <span>Ocupación</span>
+        <span>{{ fitnessClass.currentEnrollment }}/{{ fitnessClass.maxCapacity }}</span>
+      </div>
+      <mat-progress-bar [color]="
+          occupancyPercentage >= 90
+            ? 'warn'
+            : occupancyPercentage >= 70
+            ? 'accent'
+            : 'primary'
+        " mode="determinate" [value]="occupancyPercentage"></mat-progress-bar>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-stroked-button class="w-full" [disabled]="availableSpots === 0" (click)="onReserveClick()">
+      {{ availableSpots === 0 ? 'Completo' : 'Reservar Clase' }}
+    </button>
+  </mat-card-actions>
+</mat-card>
