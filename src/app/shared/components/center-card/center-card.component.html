@@ -1,0 +1,29 @@
+<mat-card class="center-card overflow-hidden hoverable">
+  <div class="card-image-wrapper">
+    <img [src]="center.image" [alt]="center.name" class="card-image" />
+    <div class="card-image-gradient"></div>
+    <div class="card-image-text">
+      <h3 class="card-title">{{ center.name }}</h3>
+      <p class="card-subtitle">{{ center.address }}</p>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <div class="location">
+      <mat-icon fontIcon="location_on" class="location-icon"></mat-icon>
+      <span class="location-text">{{ center.city }}</span>
+    </div>
+
+    <div class="facilities">
+      <mat-chip-set>
+        @for(facility of center.facilities.slice(0, 3); track $index){
+        <mat-chip>{{facility}}</mat-chip>
+        }
+      </mat-chip-set>
+    </div>
+
+    <button mat-stroked-button color="primary" class="w-full">
+      Ver Detalles
+    </button>
+  </div>
+</mat-card>

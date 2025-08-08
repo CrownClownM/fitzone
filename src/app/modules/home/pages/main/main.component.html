@@ -1,0 +1,61 @@
+<div class="page">
+  <app-banner />
+  <section class="section section-gradient-card">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          Descubre Nuestras
+          <span class="gradient-primary text-gradient">
+            Clases Populares
+          </span>
+        </h2>
+        <p class="section-description">
+          Entrenamientos diseñados para todos los niveles con instructores especializados
+        </p>
+      </div>
+
+      <div class="cards-grid-3 mb-large">
+        @for (fitnessClass of featuredClasses(); track fitnessClass.id) {
+        <app-class-card [fitnessClass]="fitnessClass" (reserve)="reserveClass($event)">
+        </app-class-card>
+        }
+      </div>
+
+      <div class="text-center">
+        <a routerLink="/classes">
+          <button mat-flat-button>
+            Ver Todas las Clases
+          </button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-gradient-card">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">
+          Nuestros
+          <span class="gradient-primary text-gradient">Centros</span>
+        </h2>
+        <p class="section-description">
+          Instalaciones modernas equipadas con la última tecnología
+        </p>
+      </div>
+
+      <div class="cards-grid-2">
+        @for (center of centers; track center.id) {
+        <app-center-card [center]="center"></app-center-card>
+        }
+      </div>
+
+      <div class="text-center mt-medium">
+        <a routerLink="/centers">
+          <button  mat-flat-button>
+            Ver Todos los Centros
+          </button>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
