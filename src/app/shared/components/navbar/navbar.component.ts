@@ -1,16 +1,23 @@
-import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { ToastService } from '@shared/services/toast.service';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, NgClass } from '@angular/common';
+import { Component, computed, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '@auth/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [MatToolbarModule, MatIconModule, MatButtonModule, NgClass, CommonModule, RouterLink],
+  imports: [
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    NgClass,
+    CommonModule,
+    RouterLink,
+  ],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
   isMenuOpen = false;
@@ -19,13 +26,14 @@ export class NavbarComponent {
     { name: 'Inicio', href: '/' },
     { name: 'Clases', href: '/classes' },
     { name: 'Centros', href: '/centers' },
-    { name: 'Mis Reservas', href: '/bookings', authRequired: true }
+    { name: 'Mis Reservas', href: '/bookings', authRequired: true },
   ];
 
-  constructor(
-    public toastService: ToastService,
-    private _router: Router
-  ) {}
+  private _router = inject(Router);
+  private _authService = inject(AuthService);
+
+  isLoggedIn = computed(() => this._authService.isAuthenticated());
+  user = computed(() => this._authService.user());
 
   isActivePage(path: string): boolean {
     return this._router.url === path;
@@ -41,6 +49,7 @@ export class NavbarComponent {
   }
 
   logout(): void {
+    this._authService.logout();
     this._router.navigate(['/']);
   }
 }

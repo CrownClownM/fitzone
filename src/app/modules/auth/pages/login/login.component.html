@@ -1,0 +1,56 @@
+<div class="login-container" [formGroup]="loginForm">
+  <mat-card class="login-card">
+    <mat-card-header class="header">
+      <mat-card-title>
+        <div class="logo">
+          <div class="logo__content">
+            <div class="logo__content-icon">
+              <mat-icon>fitness_center</mat-icon>
+            </div>
+            <span class="logo__content-text">FitZone</span>
+          </div>
+        </div>
+      </mat-card-title>
+      <mat-card-subtitle>Accede a tu cuenta de FitZone para reservar clases</mat-card-subtitle>
+    </mat-card-header>
+
+    <form (ngSubmit)="onSubmit()">
+      <mat-card-content class="fields">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="tu@email.com" />
+          @if(loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched) {
+          <mat-error>
+            El email es obligatorio
+          </mat-error>
+          }
+          @if(loginForm.get('email')?.errors?.['pattern'] && loginForm.get('email')?.touched) {
+          <mat-error>
+            Ingrese un correo válido
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password" />
+          <button mat-icon-button matSuffix type="button" (click)="showPassword = !showPassword">
+            <mat-icon>{{
+              showPassword ? 'visibility_off' : 'visibility'
+              }}</mat-icon>
+          </button>
+          @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <mat-error>
+            La contraseña es obligatoria
+          </mat-error>
+          }
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-actions class="actions">
+        <button mat-flat-button class="full-width" [disabled]="isLoading" (click)="onSubmit()">
+          {{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
