@@ -16,7 +16,7 @@ export class AuthService {
   private _userStorage = inject(IndexedDbService);
 
   constructor() {
-    this.loadFromStorage();
+    this._loadFromStorage();
   }
 
   login(email: string, password: string) {
@@ -25,9 +25,8 @@ export class AuthService {
       map(user => {
         const success = !!user && user.password === password;
         if (success) {
-          // Evitamos guardar la password en memoria
           const { password: _, ...safeUser } = user;
-          this.setAuthState(safeUser, true);
+          this._setAuthState(safeUser, true);
         }
         return success;
       })
@@ -45,30 +44,30 @@ export class AuthService {
       delay(1000),
       map(() => {
         const { password: _, ...safeUser } = newUser;
-        this.setAuthState(safeUser, true);
+        this._setAuthState(safeUser, true);
         return true;
       })
     );
   }
 
   logout(): void {
-    this.setAuthState(null, false);
+    this._setAuthState(null, false);
   }
 
-  private setAuthState(user: User | null, isAuth: boolean): void {
+  private _setAuthState(user: User | null, isAuth: boolean): void {
     this._user.set(user);
     this._isAuthenticated.set(isAuth);
-    this.saveToStorage(user, isAuth);
+    this._saveToStorage(user, isAuth);
   }
 
-  private saveToStorage(user: User | null, isAuth: boolean): void {
+  private _saveToStorage(user: User | null, isAuth: boolean): void {
     localStorage.setItem(
       'fitzone-auth',
       JSON.stringify({ user, isAuthenticated: isAuth })
     );
   }
 
-  private loadFromStorage(): void {
+  private _loadFromStorage(): void {
     const data = localStorage.getItem('fitzone-auth');
     if (data) {
       const { user, isAuthenticated } = JSON.parse(data);

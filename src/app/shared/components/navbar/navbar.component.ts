@@ -24,8 +24,8 @@ export class NavbarComponent {
 
   navigation = [
     { name: 'Inicio', href: '/' },
-    { name: 'Clases', href: '/classes' },
     { name: 'Centros', href: '/centers' },
+    { name: 'Clases', href: '/classes' },
     { name: 'Mis Reservas', href: '/bookings', authRequired: true },
   ];
 

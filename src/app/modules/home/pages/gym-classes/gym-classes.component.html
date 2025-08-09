@@ -1,1 +1,106 @@
-<p>gym-classes works!</p>
+<div class="classes-container">
+  <div class="header">
+    <h1>
+      Explora Nuestras <span class="gradient-primary">Clases</span>
+    </h1>
+    <p>Encuentra la clase perfecta para tu nivel y objetivos</p>
+  </div>
+
+  <mat-form-field appearance="outline" class="search-bar">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput placeholder="Buscar por nombre de clase o instructor..." [formControl]="searchTerm" />
+  </mat-form-field>
+
+  <div class="filter-actions">
+    <button mat-stroked-button color="primary" (click)="showFilters = !showFilters">
+      <mat-icon>tune</mat-icon> Filtros
+    </button>
+    @if(hasActiveFilters()) {
+    <button mat-button (click)="clearFilters()">Limpiar filtros</button>
+    }
+  </div>
+
+  @if(showFilters) {
+  <form class="filters" [formGroup]="filterForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="category">
+        @for(category of categories; track $index){
+        <mat-option [value]="category.value">
+          {{ category.label }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nivel</mat-label>
+      <mat-select formControlName="intensity">
+        @for(intensity of intensities; track $index){
+        <mat-option [value]="intensity.value">
+          {{ intensity.label }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Centro</mat-label>
+      <mat-select formControlName="centerId">
+        <mat-option value="">Todos los centros</mat-option>
+        @for(center of centers; track $index){
+        <mat-option [value]="center.id">
+          {{ center.name }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+  }
+
+  @if(hasActiveFilters()){
+  <div class="active-filters">
+    <mat-chip-set>
+      @if(getCategoryLabel()){
+      <mat-chip (removed)="filterForm.patchValue({ category: '' })">
+        {{ getCategoryLabel() }}
+        <button matChipRemove><mat-icon>close</mat-icon></button>
+      </mat-chip>
+      }
+      @if(getIntensityLabel()){
+      <mat-chip (removed)="filterForm.patchValue({ intensity: '' })">
+        {{ getIntensityLabel() }}
+        <button matChipRemove><mat-icon>close</mat-icon></button>
+      </mat-chip>
+      }
+      @if(getCenterName()){
+      <mat-chip (removed)="filterForm.patchValue({ centerId: '' })">
+        {{ getCenterName() }}
+        <button matChipRemove><mat-icon>close</mat-icon></button>
+      </mat-chip>
+      }
+    </mat-chip-set>
+  </div>
+  }
+
+  <p>{{ filteredClasses.length }} {{ filteredClasses.length === 1 ? 'clase encontrada' : 'clases encontradas' }}</p>
+
+  @if(filteredClasses.length > 0) {
+  <div class="class-grid">
+    @for(fitnessClass of filteredClasses; track $index) {
+    <app-class-card [fitnessClass]="fitnessClass" (reserve)="handleReserveClass($event)"></app-class-card>
+    }
+  </div>
+  } @else {
+  <ng-container *ngTemplateOutlet="noResults"></ng-container>
+  }
+
+  <ng-template #noResults>
+    <div class="no-results">
+      <mat-icon>filter_list_off</mat-icon>
+      <h3>No se encontraron clases</h3>
+      <p>Intenta ajustar tus filtros o términos de búsqueda</p>
+      <button mat-stroked-button (click)="clearFilters()">Limpiar filtros</button>
+    </div>
+  </ng-template>
+</div>
