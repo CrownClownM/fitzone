@@ -11,8 +11,23 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('@auth/routes/auth.routes').then(r => r.AuthRoutes),
+    loadChildren: () =>
+      import('@auth/routes/auth.routes').then((r) => r.AuthRoutes),
     canActivate: [loginRedirectGuard],
+  },
+  {
+    path: 'classes',
+    loadComponent: () =>
+      import('@home/pages/gym-classes/gym-classes.component').then(
+        (m) => m.GymClassesComponent
+      ),
+  },
+  {
+    path: 'centers',
+    loadComponent: () =>
+      import('@home/pages/centers/centers.component').then(
+        (m) => m.CentersComponent
+      ),
   },
   {
     path: '**',

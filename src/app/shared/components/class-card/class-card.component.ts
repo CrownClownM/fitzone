@@ -40,8 +40,8 @@ export class ClassCardComponent {
     functional: 'Funcional'
   };
 
-  constructor(private classStore: ClassStoreService) {
-    this.centers = this.classStore.centers();
+  constructor(private _classStore: ClassStoreService) {
+    this.centers = this._classStore.centers();
   }
 
   get center() {

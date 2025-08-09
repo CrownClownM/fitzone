@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './banner.component.scss'
 })
 export class BannerComponent {
-  bannerImage = 'assets/images/hero-fitness.jpg';
+  bannerImage = 'assets/images/hero-fitness.webp';
 
   private _router = inject(Router);
 

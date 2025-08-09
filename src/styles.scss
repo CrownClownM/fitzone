@@ -1,5 +1,5 @@
 @use "@angular/material" as mat;
-@import "assets/styles/toast.scss";
+@use "assets/styles/toast.scss" as *;
 
 :root {
   --primary-color: #ff512f;

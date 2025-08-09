@@ -8,11 +8,16 @@
 
   <div class="navbar__links hide-on-mobile">
     @for(item of navigation; track $index){
-    @if(!item.authRequired){
-    <a [routerLink]="item.href" [ngClass]="{'active': isActivePage(item.href)}">
-      {{ item.name }}
-    </a>
-    }
+      @if(!item.authRequired){
+        <a [routerLink]="item.href" [ngClass]="{'active': isActivePage(item.href)}">
+          {{ item.name }}
+        </a>
+      }
+      @if(item.authRequired && isLoggedIn()){
+        <a [routerLink]="item.href" [ngClass]="{'active': isActivePage(item.href)}">
+          {{ item.name }}
+        </a>
+      }
     }
   </div>
 
@@ -43,9 +48,18 @@
 @if(isMenuOpen){
 <div class="navbar__mobile">
   <div class="navbar__mobile-links">
-    <a *ngFor="let item of navigation" (click)="navigateTo(item.href)" [ngClass]="{'active': isActivePage(item.href)}">
-      {{ item.name }}
-    </a>
+    @for(item of navigation; track $index){
+      @if(!item.authRequired){
+        <a (click)="navigateTo(item.href)" [ngClass]="{'active': isActivePage(item.href)}">
+          {{ item.name }}
+        </a>
+      }
+      @if(item.authRequired && isLoggedIn()){
+        <a (click)="navigateTo(item.href)" [ngClass]="{'active': isActivePage(item.href)}">
+          {{ item.name }}
+        </a>
+      }
+    }
 
     <div class="navbar__mobile-auth">
       @if(isLoggedIn()){

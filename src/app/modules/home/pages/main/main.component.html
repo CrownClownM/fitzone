@@ -44,8 +44,8 @@
       </div>
 
       <div class="cards-grid-2">
-        @for (center of centers; track center.id) {
-        <app-center-card [center]="center"></app-center-card>
+        @for (center of centers(); track center.id) {
+          <app-center-card [center]="center"></app-center-card>
         }
       </div>
 

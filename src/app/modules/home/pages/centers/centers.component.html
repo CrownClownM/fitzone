@@ -1,1 +1,14 @@
-<p>centers works!</p>
+<div class="container">
+  <div class="header">
+    <h1 class="title">Nuestros Centros</h1>
+    <p class="subtitle">
+      Descubre nuestras instalaciones deportivas de última generación ubicadas en los mejores puntos de la ciudad.
+    </p>
+  </div>
+
+  <div class="grid">
+    @for(center of centers(); track $index){
+    <app-center-card [center]="center"></app-center-card>
+    }
+  </div>
+</div>
