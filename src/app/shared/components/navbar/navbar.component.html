@@ -18,11 +18,11 @@
 
   @if(isLoggedIn()){
   <div class="navbar__actions hide-on-mobile">
-    <button mat-button>
+    <button mat-button type="button">
       <mat-icon>person</mat-icon>
       {{ user()?.name }}
     </button>
-    <button mat-stroked-button (click)="logout()">Cerrar Sesión</button>
+    <button mat-stroked-button color="primary" type="button" (click)="logout()">Cerrar Sesión</button>
   </div>
   } @else {
   <ng-container *ngTemplateOutlet="guestLinks"></ng-container>
@@ -30,12 +30,12 @@
 
   <ng-template #guestLinks>
     <div class="buttons hide-on-mobile">
-      <button mat-stroked-button color="primary" (click)="navigateTo('/login')">Iniciar Sesión</button>
-      <button mat-flat-button (click)="navigateTo('/register')">Registrarse</button>
+      <button mat-stroked-button color="primary" type="button" (click)="navigateTo('/auth/login')">Iniciar Sesión</button>
+      <button mat-flat-button type="button" (click)="navigateTo('/auth/register')">Registrarse</button>
     </div>
   </ng-template>
 
-  <button mat-icon-button class="show-on-mobile" (click)="toggleMenu()">
+  <button mat-icon-button class="show-on-mobile" type="button" (click)="toggleMenu()">
     <mat-icon>{{ isMenuOpen ? 'close' : 'menu' }}</mat-icon>
   </button>
 </mat-toolbar>
@@ -49,13 +49,13 @@
 
     <div class="navbar__mobile-auth">
       @if(isLoggedIn()){
-      <a (click)="logout()">
+      <button mat-stroked-button color="primary" type="button" (click)="logout()">
         Cerrar Sesión
-      </a>
+      </button>
       } @else {
       <div class="buttons">
-        <button mat-stroked-button color="primary" (click)="navigateTo('/login')">Iniciar Sesión</button>
-        <button mat-flat-button (click)="navigateTo('/register')">
+        <button mat-stroked-button color="primary" type="button" (click)="navigateTo('/auth/login')">Iniciar Sesión</button>
+        <button mat-flat-button type="button" (click)="navigateTo('/auth/register')">
           Registrarse
         </button>
       </div>
