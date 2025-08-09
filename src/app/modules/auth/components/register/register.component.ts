@@ -1,9 +1,11 @@
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -23,7 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatInputModule,
     MatButtonModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -31,6 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class RegisterComponent {
   loginForm: FormGroup;
   showPassword = false;
+  showVerifyPassword = false;
   isLoading = false;
 
   private _authService = inject(AuthService);
@@ -39,17 +42,31 @@ export class RegisterComponent {
   private _fb = inject(FormBuilder);
 
   constructor() {
-    this.loginForm = this._fb.group({
-      name: ['', Validators.required],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'),
+    this.loginForm = this._initializeForm();
+  }
+
+  private _initializeForm(): FormGroup {
+    return this._fb.group(
+      {
+        name: ['', Validators.required],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.email,
+          ],
         ],
-      ],
-      password: ['', Validators.required],
-    });
+        password: ['', Validators.required],
+        verifyPassword: ['', Validators.required],
+      },
+      { validators: this._passwordMatchValidator }
+    );
+  }
+
+  private _passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const verifyPassword = group.get('verifyPassword')?.value;
+    return password === verifyPassword ? null : { passwordMismatch: true };
   }
 
   onSubmit() {
@@ -66,6 +83,7 @@ export class RegisterComponent {
         this.isLoading = false;
         if (success) {
           this._router.navigate(['/']);
+          this._toastService.showSuccess('¡Registro exitoso! Bienvenido');
         } else {
           this._toastService.showError('Ya existe este correo');
         }

@@ -2,7 +2,7 @@
   <mat-card-content class="fields">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Nombre</mat-label>
-      <input matInput formControlName="name" />
+      <input matInput type="text" formControlName="name" />
       @if(loginForm.get('name')?.errors?.['required'] && loginForm.get('name')?.touched) {
       <mat-error>
         El nombre es obligatorio
@@ -18,7 +18,7 @@
         El email es obligatorio
       </mat-error>
       }
-      @if(loginForm.get('email')?.errors?.['pattern'] && loginForm.get('email')?.touched) {
+      @if(loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched) {
       <mat-error>
         Ingrese un correo válido
       </mat-error>
@@ -36,6 +36,26 @@
       @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
       <mat-error>
         La contraseña es obligatoria
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Verificar contraseña</mat-label>
+      <input matInput [type]="showVerifyPassword ? 'text' : 'password'" formControlName="verifyPassword" />
+      <button mat-icon-button matSuffix type="button" (click)="showVerifyPassword = !showVerifyPassword">
+        <mat-icon>{{
+          showPassword ? 'visibility_off' : 'visibility'
+          }}</mat-icon>
+      </button>
+      @if(loginForm.get('verifyPassword')?.invalid && loginForm.get('verifyPassword')?.touched) {
+      <mat-error>
+        La contraseña es obligatoria
+      </mat-error>
+      }
+      @if(loginForm.errors?.['passwordMismatch'] && loginForm.get('verifyPassword')?.touched) {
+      <mat-error>
+        Las contraseñas no coinciden
       </mat-error>
       }
     </mat-form-field>

@@ -46,6 +46,7 @@ export class LoginComponent {
         this.isLoading = false;
         if (success) {
           this._router.navigate(['/']);
+          this._toastService.showSuccess('¡Inicio de sesión exitoso! Bienvenido');
         } else {
           this._toastService.showError('Email o contraseña incorrectos');
         }

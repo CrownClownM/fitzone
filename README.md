@@ -1,59 +1,104 @@
 # Fitzone
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
+Proyecto web generado con [Angular CLI](https://github.com/angular/angular-cli) versión 19.1.8.
 
-## Development server
+## 🔧 Instrucciones de instalación y ejecución
 
-To start a local development server, run:
+1. **Clona el repositorio:**
+	 ```bash
+	 git clone <url-del-repo>
+	 cd fitzone
+	 ```
+2. **Instala las dependencias:**
+	 ```bash
+	 npm install
+	 ```
+3. **Ejecuta el servidor de desarrollo:**
+	 ```bash
+	 ng serve
+	 ```
+	 Luego abre tu navegador en [http://localhost:4200/](http://localhost:4200/)
 
-```bash
-ng serve
+## 🛠️ Stack Tecnológico
+
+- **Framework**: Angular 17.3.6 (Componentes Standalone)
+- **Librería UI**: Angular Material
+- **Gestión de Estado**: Angular Signals
+- **Cliente HTTP**: Angular HttpClient con interceptores
+- **Enrutamiento**: Angular Router con guardias
+- **Testing**: Jest + Spectator
+- **Tipado**: TypeScript con modo estricto
+- **Herramienta de Build**: Angular CLI
+- **Estilos**: SCSS con temas de Angular Material
+
+## 📁 Estructura del proyecto
+
+```
+fitzone/
+│
+├── angular.json
+├── package.json
+├── src/
+│   ├── index.html
+│   ├── main.ts
+│   ├── styles.scss
+│   └── app/
+│       ├── app.component.*
+│       ├── app.config.ts
+│       ├── app.routes.ts
+│       ├── core/
+│       ├── modules/
+│       │   ├── auth/
+│       │   └── home/
+│       │       ├── components/
+│       │       │   ├── banner/
+│       │       │   └── class-card/
+│       │       ├── interfaces/
+│       │       ├── pages/
+│       │       └── services/
+│       └── shared/
+│           └── components/
+│               └── navbar/
+│
+└── assets/
+		└── images/
+				└── hero-fitness.jpg
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Simulación de datos
 
-## Code scaffolding
+El proyecto utiliza una simulación de datos para mostrar información de clases, banners y otros elementos en la interfaz. Esta simulación se realiza mediante servicios e interfaces ubicados en:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- `src/app/modules/home/services/`: Servicios que gestionan y proveen los datos simulados.
+- `src/app/modules/home/interfaces/`: Definición de las interfaces de los datos simulados.
 
-```bash
-ng generate component component-name
-```
+Actualmente, los datos no provienen de una API real, sino que se generan y gestionan localmente en el IndexedDB para facilitar el desarrollo y pruebas de la interfaz.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Comandos útiles
 
-```bash
-ng generate --help
-```
+- 🏗️ **Construir el proyecto:**
+	```bash
+	ng build
+	```
+- 🧪 **Ejecutar pruebas unitarias:**
+	```bash
+	ng test
+	```
 
-## Building
+## Decisiones de Diseño
 
-To build the project run:
+- **Componentes Standalone**: Usando componentes standalone de Angular 19 para mejor tree-shaking
+- **Signals**: Aprovechando Angular Signals para gestión de estado reactiva
+- **Material Design**: UI consistente con componentes de Angular Material
+- **Notificaciones Toast**: Feedback claro para todas las acciones del usuario
 
-```bash
-ng build
-```
+## Características de Rendimiento
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- **Lazy Loading**: División de código basada en rutas
+- **Estrategia OnPush**: Detección de cambios optimizada
+- **Valores Computados**: Propiedades computadas reactivas con Signals
+- **Tree Shaking**: Tamaño de bundle optimizado con componentes standalone
 
-## Running unit tests
+## Recursos adicionales
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para más información sobre Angular CLI, visita la [documentación oficial](https://angular.dev/tools/cli).
