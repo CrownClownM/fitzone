@@ -55,7 +55,7 @@ export class AuthService {
     this.setAuthState(null, false);
   }
 
-  private setAuthState(user: any | null, isAuth: boolean): void {
+  private setAuthState(user: User | null, isAuth: boolean): void {
     this._user.set(user);
     this._isAuthenticated.set(isAuth);
     this.saveToStorage(user, isAuth);

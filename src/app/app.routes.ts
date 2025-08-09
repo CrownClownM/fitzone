@@ -10,16 +10,13 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'login',
-    loadComponent: () =>
-      import('./modules/auth/pages/login/login.component').then(
-        (m) => m.LoginComponent
-      ),
+    path: 'auth',
+    loadChildren: () => import('@auth/routes/auth.routes').then(r => r.AuthRoutes),
     canActivate: [loginRedirectGuard],
   },
   {
     path: '**',
-    redirectTo: '/login',
+    redirectTo: '',
     pathMatch: 'full',
   },
 ];
