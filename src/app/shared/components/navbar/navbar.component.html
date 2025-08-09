@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="navbar" fxLayout="row" fxLayoutAlign="space-between center">
+<mat-toolbar class="navbar" fxLayout="row" fxLayoutAlign="space-between center">
   <div class="navbar__logo" (click)="navigateTo('/')">
     <div class="navbar__logo-icon">
       <mat-icon>fitness_center</mat-icon>
@@ -16,21 +16,23 @@
     }
   </div>
 
-  @if(true){
+  @if(isLoggedIn()){
   <div class="navbar__actions hide-on-mobile">
     <button mat-button>
       <mat-icon>person</mat-icon>
-      {{ "Steven Medina" }}
+      {{ user()?.name }}
     </button>
-    <button mat-stroked-button color="accent" (click)="logout()">Cerrar Sesión</button>
+    <button mat-stroked-button (click)="logout()">Cerrar Sesión</button>
   </div>
   } @else {
   <ng-container *ngTemplateOutlet="guestLinks"></ng-container>
   }
 
   <ng-template #guestLinks>
-    <button mat-stroked-button (click)="navigateTo('/login')">Iniciar Sesión</button>
-    <button mat-stroked-button color="accent" (click)="navigateTo('/register')">Registrarse</button>
+    <div class="buttons hide-on-mobile">
+      <button mat-stroked-button color="primary" (click)="navigateTo('/login')">Iniciar Sesión</button>
+      <button mat-flat-button (click)="navigateTo('/register')">Registrarse</button>
+    </div>
   </ng-template>
 
   <button mat-icon-button class="show-on-mobile" (click)="toggleMenu()">
@@ -46,17 +48,18 @@
     </a>
 
     <div class="navbar__mobile-auth">
-      <ng-container>
-        <a (click)="logout()">
-          Cerrar Sesión
-        </a>
-      </ng-container>
-      <ng-template #mobileGuest>
-        <button mat-button class="full-width" (click)="navigateTo('/login')">Iniciar Sesión</button>
-        <button mat-raised-button color="accent" class="full-width" (click)="navigateTo('/register')">
+      @if(isLoggedIn()){
+      <a (click)="logout()">
+        Cerrar Sesión
+      </a>
+      } @else {
+      <div class="buttons">
+        <button mat-stroked-button color="primary" (click)="navigateTo('/login')">Iniciar Sesión</button>
+        <button mat-flat-button (click)="navigateTo('/register')">
           Registrarse
         </button>
-      </ng-template>
+      </div>
+      }
     </div>
   </div>
 </div>

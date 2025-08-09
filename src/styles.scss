@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 :root {
   --primary-color: #ff512f;
@@ -8,13 +8,19 @@
   --text-muted: #6b7280e6;
   --bg-muted: #f3f4f6;
 
-  --gradient-primary: linear-gradient(90deg, --primary-color, --primary-color-2);
+  --gradient-primary: linear-gradient(
+    90deg,
+    --primary-color,
+    --primary-color-2
+  );
   --gradient-card: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
   --gradient-hero: linear-gradient(90deg, #ff512f, #dd2476);
 
   @include mat.button-overrides((
     filled-container-color: var(--primary-color),
     filled-label-text-color: white,
+    outlined-label-text-color: var(--primary-color),
+    text-label-text-color: var(--primary-color),
   ));
 }
 
@@ -37,4 +43,8 @@ body {
 
 .w-full {
   width: 100%;
+}
+
+.text-center {
+  text-align: center;
 }

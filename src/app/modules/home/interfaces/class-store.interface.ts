@@ -1,9 +1,3 @@
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 export interface FitnessCenter {
   id: string;
   name: string;

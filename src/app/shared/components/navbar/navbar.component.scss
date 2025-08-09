@@ -26,6 +26,7 @@
   }
 
   &__links a {
+    font-size: large;
     margin: 0 0.75rem;
     font-weight: 500;
     text-decoration: none;
@@ -96,4 +97,10 @@
       display: inline-flex;
     }
   }
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
 }
