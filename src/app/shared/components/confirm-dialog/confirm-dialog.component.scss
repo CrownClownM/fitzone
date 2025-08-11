@@ -1,0 +1,15 @@
+.dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.dialog-content {
+  font-size: 0.95rem;
+}
+.dialog-actions {
+  padding-top: 0.5rem;
+}
+.icon {
+  color: var(--primary-color);
+}

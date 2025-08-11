@@ -18,11 +18,9 @@ export class CenterCardComponent {
 
   private _router = inject(Router);
 
-  navigateTo(path: string): void {
-    this._router.navigate([path]);
-  }
-
-  // Navega a la vista de clases aplicando el centro como query param
+  /**
+   * Navega a la vista de clases aplicando el centro como query param
+   */
   navigateToClasses(): void {
     if (!this.center) return;
     this._router.navigate(['/classes'], {

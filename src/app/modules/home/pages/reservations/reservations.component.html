@@ -1,0 +1,35 @@
+<div class="min-h-screen pt-16">
+  <div class="container py-8">
+    <div class="mb-8">
+      <h1 class="title">
+        Mis <span class="gradient-primary">Reservas</span>
+      </h1>
+      <p class="subtitle">Gestiona tus clases reservadas</p>
+    </div>
+
+  @if(loading){
+      <app-loader text="Cargando reservas..." icon="autorenew" size="lg" />
+    } @else if(userBookings.length > 0){
+
+    <div class="reservations-content">
+      @for(booking of userBookings; track $index){
+        <app-card-reservation
+          [booking]="booking"
+          [klass]="getClassDetails(booking.classId)!"
+          [center]="getCenterDetails(getClassDetails(booking.classId)?.centerId || '')" />
+      }
+    </div>
+  } @else {
+    <ng-container *ngTemplateOutlet="noBookings"></ng-container>
+    }
+  </div>
+</div>
+
+<ng-template #noBookings>
+  <div class="text-center ">
+    <mat-icon class="empty-icon auto">edit_calendar</mat-icon>
+    <h3 class="text-lg font-medium mb-2">No tienes reservas</h3>
+    <p class="text-muted mb-4">Explora nuestras clases y haz tu primera reserva</p>
+    <button mat-flat-button color="primary" routerLink="/classes">Explorar Clases</button>
+  </div>
+</ng-template>

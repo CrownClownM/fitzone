@@ -1,0 +1,51 @@
+<mat-card class="overflow-hidden">
+  <mat-card-header>
+    <div class="header-row">
+      <div>
+        <mat-card-title>{{ klass.name }}</mat-card-title>
+        <mat-card-subtitle>
+          <mat-icon>person</mat-icon>
+          Instructor: {{ klass.instructor }}
+        </mat-card-subtitle>
+      </div>
+      <div class="badges">
+        <mat-chip [color]="booking.status === 'confirmed' ? 'primary' : 'accent'" selected>
+          {{ booking.status === 'confirmed' ? 'Confirmada' : booking.status === 'cancelled' ? 'Cancelada' : 'Completada' }}
+        </mat-chip>
+        <mat-chip variant="outlined">
+          {{ booking.paymentStatus === 'paid' ? 'Pagada' : booking.paymentStatus === 'pending' ? 'Pendiente' : 'Reembolsada' }}
+        </mat-chip>
+      </div>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="info-grid">
+      <div class="info-item">
+        <mat-icon>calendar_today</mat-icon>
+        {{ booking.bookingDate | date:'dd/MM/yyyy' }}
+      </div>
+      <div class="info-item">
+        <mat-icon>schedule</mat-icon>
+        {{ klass.duration }} minutos
+      </div>
+      <div class="info-item">
+        <mat-icon>location_on</mat-icon>
+        {{ center?.name }}
+      </div>
+    </div>
+
+    <div class="chips-row">
+      <mat-chip>{{ klass.category }}</mat-chip>
+      <mat-chip variant="outlined">{{ intensityLabel }}</mat-chip>
+      <span class="price">{{ klass.price | currency : 'COP' : 'symbol-narrow' : '.0-0' }}</span>
+    </div>
+
+    <div class="actions">
+      <button mat-stroked-button color="warn" (click)="onCancel()">
+        <mat-icon>close</mat-icon>
+        Cancelar Reserva
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

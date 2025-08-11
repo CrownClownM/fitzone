@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '@core/guards/auth.guard';
 import { loginRedirectGuard } from '@core/guards/login-redirect.guard';
 
 export const routes: Routes = [
@@ -28,6 +29,14 @@ export const routes: Routes = [
       import('@home/pages/centers/centers.component').then(
         (m) => m.CentersComponent
       ),
+  },
+  {
+    path: 'bookings',
+    loadComponent: () =>
+      import('@home/pages/reservations/reservations.component').then(
+        (m) => m.ReservationsComponent
+      ),
+      canActivate: [authGuard],
   },
   {
     path: '**',

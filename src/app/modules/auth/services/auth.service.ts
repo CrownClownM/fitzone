@@ -19,6 +19,12 @@ export class AuthService {
     this._loadFromStorage();
   }
 
+  /**
+   * Inicia sesión con el usuario.
+   * @param email Correo electrónico del usuario.
+   * @param password Contraseña del usuario.
+   * @returns Observable<boolean> que indica si el inicio de sesión fue exitoso.
+   */
   login(email: string, password: string) {
     return from(this._userStorage.getUserByEmail(email)).pipe(
       delay(1000),
@@ -33,6 +39,13 @@ export class AuthService {
     );
   }
 
+  /**
+   * Registra un nuevo usuario.
+   * @param name Nombre del usuario.
+   * @param email Correo electrónico del usuario.
+   * @param password Contraseña del usuario.
+   * @returns Observable<boolean> que indica si el registro fue exitoso.
+   */
   register(name: string, email: string, password: string) {
     const newUser: User & { password: string } = {
       id: Date.now().toString(),
@@ -50,16 +63,29 @@ export class AuthService {
     );
   }
 
+  /**
+   * Cierra sesión del usuario.
+   */
   logout(): void {
     this._setAuthState(null, false);
   }
 
+  /**
+   * Establece el estado de autenticación del usuario.
+   * @param user Usuario autenticado o null si se cierra sesión.
+   * @param isAuth Estado de autenticación.
+   */
   private _setAuthState(user: User | null, isAuth: boolean): void {
     this._user.set(user);
     this._isAuthenticated.set(isAuth);
     this._saveToStorage(user, isAuth);
   }
 
+  /**
+   * Guarda el estado de autenticación en el almacenamiento local.
+   * @param user Usuario autenticado o null si se cierra sesión.
+   * @param isAuth Estado de autenticación.
+   */
   private _saveToStorage(user: User | null, isAuth: boolean): void {
     localStorage.setItem(
       'fitzone-auth',
@@ -67,6 +93,9 @@ export class AuthService {
     );
   }
 
+  /**
+   * Carga el estado de autenticación desde el almacenamiento local.
+   */
   private _loadFromStorage(): void {
     const data = localStorage.getItem('fitzone-auth');
     if (data) {

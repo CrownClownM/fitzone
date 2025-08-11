@@ -13,6 +13,10 @@ export class BannerComponent {
 
   private _router = inject(Router);
 
+  /**
+   * Navega a una ruta específica.
+   * @param path Ruta a la que se desea navegar.
+   */
   navigateTo(path: string): void {
     this._router.navigate([path]);
   }

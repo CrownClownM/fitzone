@@ -128,29 +128,4 @@
     border-radius: 9999px;
     background: var(--primary-color);
   }
-
-  &__float {
-    position: absolute;
-    border-radius: 50%;
-    animation: float 6s ease-in-out infinite;
-
-    &--primary {
-      top: 5rem;
-      right: 5rem;
-      width: 5rem;
-      height: 5rem;
-      background: var(--gradient-primary);
-      opacity: 0.2;
-    }
-
-    &--secondary {
-      bottom: 5rem;
-      left: 5rem;
-      width: 4rem;
-      height: 4rem;
-      background: var(--gradient-hero);
-      opacity: 0.3;
-      animation-delay: 1s;
-    }
-  }
 }

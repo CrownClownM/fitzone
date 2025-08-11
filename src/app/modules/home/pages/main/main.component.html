@@ -1,5 +1,15 @@
 <div class="page">
   <app-banner />
+  <div class="promo-wrapper">
+    <img
+      src="assets/images/promo-month.svg"
+      alt="Este mes está lleno de promociones, regístrate y gana"
+      class="promo-banner"
+      width="1200"
+      height="160"
+      loading="lazy"
+    />
+  </div>
   <section class="section section-gradient-card">
     <div class="container">
       <div class="section-header">
@@ -16,14 +26,14 @@
 
       <div class="cards-grid-3 mb-large">
         @for (fitnessClass of featuredClasses(); track fitnessClass.id) {
-        <app-class-card [fitnessClass]="fitnessClass" (reserve)="reserveClass($event)">
+        <app-class-card [fitnessClass]="fitnessClass" (reserve)="handleReserveClass($event)">
         </app-class-card>
         }
       </div>
 
       <div class="text-center">
         <a routerLink="/classes">
-          <button mat-flat-button type="button">
+          <button mat-flat-button type="button" (click)="navigateTo('/classes')">
             Ver todas las clases
           </button>
         </a>
@@ -44,14 +54,14 @@
       </div>
 
       <div class="cards-grid-2">
-        @for (center of centers(); track center.id) {
+        @for (center of featuredCenters(); track center.id) {
           <app-center-card [center]="center"></app-center-card>
         }
       </div>
 
       <div class="text-center mt-medium">
         <a routerLink="/centers">
-          <button  mat-flat-button type="button">
+          <button  mat-flat-button type="button" (click)="navigateTo('/centers')">
             Ver todos los centros
           </button>
         </a>

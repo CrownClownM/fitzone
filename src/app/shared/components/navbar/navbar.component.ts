@@ -39,15 +39,25 @@ export class NavbarComponent {
     return this._router.url === path;
   }
 
+  /**
+   * Maneja el toggle del menú de navegación.
+   */
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  /**
+   * Navega a la ruta especificada.
+   * @param path Ruta a la que navegar.
+   */
   navigateTo(path: string): void {
     this._router.navigate([path]);
     this.isMenuOpen = false;
   }
 
+  /**
+   * Cierra sesión y navega a la página de inicio.
+   */
   logout(): void {
     this._authService.logout();
     this._router.navigate(['/']);

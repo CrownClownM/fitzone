@@ -45,6 +45,10 @@ export class RegisterComponent {
     this.loginForm = this._initializeForm();
   }
 
+  /**
+   * Inicializa el formulario de registro.
+   * @returns FormGroup
+   */
   private _initializeForm(): FormGroup {
     return this._fb.group(
       {
@@ -63,12 +67,20 @@ export class RegisterComponent {
     );
   }
 
+  /**
+   * Valida que las contraseñas coincidan.
+   * @param group Grupo de controles del formulario.
+   * @returns Errores de validación o null si las contraseñas coinciden.
+   */
   private _passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
     const password = group.get('password')?.value;
     const verifyPassword = group.get('verifyPassword')?.value;
     return password === verifyPassword ? null : { passwordMismatch: true };
   }
 
+  /**
+   * Maneja el envío del formulario de registro.
+   */
   onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();

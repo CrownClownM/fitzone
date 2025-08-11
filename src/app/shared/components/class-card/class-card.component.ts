@@ -56,6 +56,9 @@ export class ClassCardComponent {
     return (this.fitnessClass.currentEnrollment / this.fitnessClass.maxCapacity) * 100;
   }
 
+  /**
+   * Maneja el clic para crear el evento de reserva.
+   */
   onReserveClick() {
     this.reserve.emit(this.fitnessClass.id);
   }

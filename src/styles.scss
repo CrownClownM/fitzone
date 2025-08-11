@@ -12,9 +12,8 @@
   --gradient-primary: linear-gradient(
     90deg,
     --primary-color,
-    --primary-color-2
+    --secondary-color
   );
-  --gradient-card: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
   --gradient-hero: linear-gradient(90deg, #ff512f, #dd2476);
 
   @include mat.button-overrides((
@@ -49,3 +48,5 @@ body {
 .text-center {
   text-align: center;
 }
+
+.mat-icon.auto { width:auto; height:auto; }

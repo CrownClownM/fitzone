@@ -32,6 +32,9 @@ export class LoginComponent {
     });
   }
 
+  /**
+   * Maneja el envío del formulario de inicio de sesión.
+   */
   onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
