@@ -1,121 +1,33 @@
 import { Injectable } from '@angular/core';
 import { User } from '@auth/interfaces/auth.interfce';
 import { FitnessCenter, FitnessClass } from '@home/interfaces/class-store.interface';
+import { MOCK_CENTERS } from '../data/mock-centers';
+import { MOCK_CLASSES } from '../data/mock-classes';
+import { Booking } from '@home/interfaces/booking.interface';
+import { MOCK_USERS } from '../data/mock-users';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IndexedDbService {
   private _dbName = 'fitnessDB';
   private _userStoreName = 'users';
   private _centersStoreName = 'centers';
   private _classesStoreName = 'classes';
+  private _bookingsStoreName = 'bookings';
 
-  private _mockUsers: (User & { password: string })[] = [
-    { id: '1', name: 'Test User', email: 'test@fitzone.com', password: 'password123' },
-    { id: '2', name: 'Steven Medina', email: 'medina@fitzone.com', password: 'password123' }
-  ];
+  private _mockUsers: (User & { password: string })[] = MOCK_USERS;
 
-  private _mockCenters: FitnessCenter[] = [
-    {
-      id: '1',
-      name: 'FitZone Centro',
-      address: 'Calle Gran Vía 25',
-      city: 'Madrid',
-      phone: '+34 911 234 567',
-      facilities: ['Piscina', 'Sauna', 'Zona CrossFit', 'Sala Spinning'],
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-    },
-    {
-      id: '2',
-      name: 'FitZone Norte',
-      address: 'Avenida de la Castellana 100',
-      city: 'Madrid',
-      phone: '+34 911 234 568',
-      facilities: ['Piscina Olímpica', 'Spa', 'Zona Funcional', 'Boxing Ring'],
-      image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop',
-    },
-  ];
-
-  private _mockClasses: FitnessClass[] = [
-    {
-      id: '1',
-      name: 'CrossFit Intenso',
-      description: 'Entrenamiento funcional de alta intensidad que combina fuerza, resistencia y flexibilidad.',
-      instructor: 'Miguel Rodríguez',
-      duration: 60,
-      intensity: 'advanced',
-      category: 'crossfit',
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-      maxCapacity: 15,
-      currentEnrollment: 12,
-      price: 25000,
-      centerId: '1',
-      schedule: [
-        {
-          id: 's1',
-          classId: '1',
-          date: '2024-01-15',
-          startTime: '18:00',
-          endTime: '19:00',
-          availableSpots: 3,
-        },
-      ],
-    },
-    {
-      id: '2',
-      name: 'Yoga Relajante',
-      description: 'Sesión de yoga enfocada en relajación y flexibilidad para todos los niveles.',
-      instructor: 'Carmen Silva',
-      duration: 75,
-      intensity: 'beginner',
-      category: 'yoga',
-      image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop',
-      maxCapacity: 20,
-      currentEnrollment: 8,
-      price: 30000,
-      centerId: '1',
-      schedule: [
-        {
-          id: 's2',
-          classId: '2',
-          date: '2024-01-15',
-          startTime: '19:30',
-          endTime: '20:45',
-          availableSpots: 12,
-        },
-      ],
-    },
-    {
-      id: '3',
-      name: 'Spinning Power',
-      description: 'Clase de cycling indoor con música motivadora y entrenamientos por intervalos.',
-      instructor: 'David Martín',
-      duration: 45,
-      intensity: 'intermediate',
-      category: 'spinning',
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-      maxCapacity: 25,
-      currentEnrollment: 20,
-      price: 20000,
-      centerId: '2',
-      schedule: [
-        {
-          id: 's3',
-          classId: '3',
-          date: '2024-01-16',
-          startTime: '07:00',
-          endTime: '07:45',
-          availableSpots: 5,
-        },
-      ],
-    },
-  ];
+  private _mockCenters: FitnessCenter[] = MOCK_CENTERS;
+  private _mockClasses: FitnessClass[] = MOCK_CLASSES;
 
   constructor() {
     this._initDB();
   }
 
+  /**
+   * Inicializa la base de datos IndexedDB y asegura que los datos de prueba estén presentes.
+   */
   private _initDB(): void {
     const request = indexedDB.open(this._dbName, 1);
 
@@ -130,6 +42,9 @@ export class IndexedDbService {
       if (!db.objectStoreNames.contains(this._classesStoreName)) {
         db.createObjectStore(this._classesStoreName, { keyPath: 'id' });
       }
+      if (!db.objectStoreNames.contains(this._bookingsStoreName)) {
+        db.createObjectStore(this._bookingsStoreName, { keyPath: 'id' });
+      }
     };
 
     request.onsuccess = () => {
@@ -137,6 +52,9 @@ export class IndexedDbService {
     };
   }
 
+  /**
+   * Asegura que los datos de prueba estén presentes en la base de datos.
+   */
   private async _ensureMockData(): Promise<void> {
     const users = await this.getAllUsers();
     const centers = await this.getAllCenters();
@@ -161,6 +79,10 @@ export class IndexedDbService {
     }
   }
 
+  /**
+   * Guarda un usuario en la base de datos.
+   * @param user Usuario a guardar.
+   */
   saveUser(user: User & { password: string }): Promise<void> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this._dbName, 1);
@@ -179,6 +101,10 @@ export class IndexedDbService {
     });
   }
 
+  /**
+   * Guarda un centro en la base de datos.
+   * @param center Centro a guardar.
+   */
   saveCenter(center: FitnessCenter): Promise<void> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this._dbName, 1);
@@ -197,6 +123,10 @@ export class IndexedDbService {
     });
   }
 
+  /**
+   * Guarda una clase en la base de datos.
+   * @param fitnessClass Clase a guardar.
+   */
   saveClass(fitnessClass: FitnessClass): Promise<void> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this._dbName, 1);
@@ -215,6 +145,11 @@ export class IndexedDbService {
     });
   }
 
+  /**
+   * Obtiene un usuario por su correo electrónico.
+   * @param email Correo electrónico del usuario.
+   * @returns Usuario encontrado o null si no existe.
+   */
   getUserByEmail(email: string): Promise<(User & { password: string }) | null> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this._dbName, 1);
@@ -245,6 +180,10 @@ export class IndexedDbService {
     });
   }
 
+  /**
+   * Obtiene todos los usuarios de la base de datos.
+   * @returns Lista de usuarios.
+   */
   getAllUsers(): Promise<(User & { password: string })[]> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this._dbName, 1);
@@ -273,6 +212,10 @@ export class IndexedDbService {
     });
   }
 
+  /**
+   * Obtiene todos los centros de la base de datos.
+   * @returns Lista de centros.
+   */
   getAllCenters(): Promise<FitnessCenter[]> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this._dbName, 1);
@@ -301,6 +244,10 @@ export class IndexedDbService {
     });
   }
 
+  /**
+   * Obtiene todas las clases de la base de datos.
+   * @returns Lista de clases.
+   */
   getAllClasses(): Promise<FitnessClass[]> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this._dbName, 1);
@@ -319,6 +266,82 @@ export class IndexedDbService {
             cursor.continue();
           } else {
             resolve(classes);
+          }
+        };
+
+        cursorRequest.onerror = () => reject(cursorRequest.error);
+      };
+
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  /**
+   * Guarda una reserva en la base de datos.
+   * @param booking Reserva a guardar.
+   */
+  saveBooking(booking: Booking): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this._dbName, 1);
+
+      request.onsuccess = (event: any) => {
+        const db = event.target.result;
+        const tx = db.transaction([this._bookingsStoreName], 'readwrite');
+        const store = tx.objectStore(this._bookingsStoreName);
+        store.put(booking);
+
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      };
+
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  /**
+   * Elimina una reserva de la base de datos.
+   * @param bookingId ID de la reserva a eliminar.
+   */
+  deleteBooking(bookingId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this._dbName, 1);
+
+      request.onsuccess = (event: any) => {
+        const db = event.target.result;
+        const tx = db.transaction([this._bookingsStoreName], 'readwrite');
+        const store = tx.objectStore(this._bookingsStoreName);
+        store.delete(bookingId);
+
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      };
+
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  /**
+   * Obtiene todas las reservas de la base de datos.
+   * @returns Lista de reservas.
+   */
+  getAllBookings(): Promise<Booking[]> {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this._dbName, 1);
+
+      request.onsuccess = (event: any) => {
+        const db = event.target.result;
+        const tx = db.transaction([this._bookingsStoreName], 'readonly');
+        const store = tx.objectStore(this._bookingsStoreName);
+        const bookings: Booking[] = [];
+
+        const cursorRequest = store.openCursor();
+        cursorRequest.onsuccess = (e: any) => {
+          const cursor = e.target.result;
+          if (cursor) {
+            bookings.push(cursor.value);
+            cursor.continue();
+          } else {
+            resolve(bookings);
           }
         };
 

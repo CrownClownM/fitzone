@@ -128,18 +128,15 @@ export class GymClassesComponent implements OnInit, OnDestroy {
   private _initializeReactivity(): void {
     this.filterForm.valueChanges.subscribe((filters) => {
       this._classService.selectedFilters.set(filters);
-
-      // Sincronizar centerId con los query params de la URL
       if (filters.centerId !== this._lastCenterId) {
         this._lastCenterId = filters.centerId;
-        // Navegar manteniendo otros posibles query params
         this._router.navigate([], {
           relativeTo: this._route,
           queryParams: {
-            centerId: filters.centerId || null, // null elimina el param
+            centerId: filters.centerId || null,
           },
           queryParamsHandling: 'merge',
-          replaceUrl: true, // Evita crecer el historial del navegador
+          replaceUrl: true,
         });
       }
     });
@@ -175,9 +172,7 @@ export class GymClassesComponent implements OnInit, OnDestroy {
   private _applyCenterIdFromQueryParam(): void {
     const centerId = this._route.snapshot.queryParamMap.get('centerId');
     if (centerId) {
-      // Guardar para evitar navegación redundante inmediata
       this._lastCenterId = centerId;
-      // Solo parchear si es diferente al valor actual del formulario
       if (this.filterForm.value.centerId !== centerId) {
         this.filterForm.patchValue({ centerId }, { emitEvent: true });
       }
@@ -192,16 +187,10 @@ export class GymClassesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroy$))
       .subscribe((params) => {
         const centerId = params.get('centerId') || '';
-        // Evitar ciclos si el valor coincide con el último propagado
         if (centerId === (this.filterForm.value.centerId || '')) return;
         this._lastCenterId = centerId;
         this.filterForm.patchValue({ centerId }, { emitEvent: true });
       });
-  }
-
-  ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
   }
 
   /*
@@ -224,11 +213,10 @@ export class GymClassesComponent implements OnInit, OnDestroy {
     }
 
     const success = this._classService.bookClass(classId);
-
     if (success) {
-      this._toastService.showSuccess(
-        'Tu clase ha sido reservada exitosamente.'
-      );
+      this._toastService.showSuccess('Tu clase ha sido reservada exitosamente.');
+    } else {
+      this._toastService.showWarning('Ya tienes esta clase reservada.');
     }
   }
 
@@ -238,5 +226,10 @@ export class GymClassesComponent implements OnInit, OnDestroy {
   hasActiveFilters(): boolean {
     const { category, intensity, centerId } = this.filterForm.value;
     return !!(category || intensity || centerId || this.searchTerm.value);
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 }

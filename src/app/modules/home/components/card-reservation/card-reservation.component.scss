@@ -1,0 +1,40 @@
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.badges {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 0.75rem 0 1rem;
+}
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--mat-sys-color-on-surface-variant, #555);
+}
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.price {
+  margin-left: auto;
+  font-weight: 600;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}

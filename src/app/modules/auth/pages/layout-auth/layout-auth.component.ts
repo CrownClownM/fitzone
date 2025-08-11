@@ -7,8 +7,6 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-layout-auth',
   imports: [RouterOutlet, MatCardModule, MatIconModule],
   templateUrl: './layout-auth.component.html',
-  styleUrl: './layout-auth.component.scss'
+  styleUrl: './layout-auth.component.scss',
 })
-export class LayoutAuthComponent {
-
-}
+export class LayoutAuthComponent {}

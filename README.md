@@ -1,6 +1,6 @@
 # Fitzone
 
-Proyecto web generado con [Angular CLI](https://github.com/angular/angular-cli) versión 19.1.8.
+Proyecto web generado con [Angular CLI](https://github.com/angular/angular-cli) versión **19.1.8** (Angular 19, componentes standalone, Signals).
 
 ## 🔧 Instrucciones de instalación y ejecución
 
@@ -21,58 +21,74 @@ Proyecto web generado con [Angular CLI](https://github.com/angular/angular-cli) 
 
 ## 🛠️ Stack Tecnológico
 
-- **Framework**: Angular 17.3.6 (Componentes Standalone)
-- **Librería UI**: Angular Material
-- **Gestión de Estado**: Angular Signals
-- **Cliente HTTP**: Angular HttpClient con interceptores
-- **Enrutamiento**: Angular Router con guardias
-- **Testing**: Jest + Spectator
-- **Tipado**: TypeScript con modo estricto
-- **Herramienta de Build**: Angular CLI
-- **Estilos**: SCSS con temas de Angular Material
+- **Framework**: Angular 19 (Standalone Components + Signals)
+- **UI**: Angular Material
+- **Estado**: Angular Signals + servicios especializados
+- **Persistencia**: IndexedDB (seed inicial + operaciones CRUD simuladas)
+- **Routing**: Angular Router con guardias (`loginRedirectGuard`, `authGuard`)
+- **Testing**: Karma + Jasmine + Spectator (utilidades de test)
+- **Tipado**: TypeScript (modo estricto)
+- **Build**: Angular CLI
+- **Estilos**: SCSS + theming Material
+- **Notificaciones**: Servicio de Toast/SnackBar para feedback de usuario
 
-## 📁 Estructura del proyecto
+## 📁 Estructura del proyecto (simplificada)
 
 ```
 fitzone/
 │
 ├── angular.json
 ├── package.json
+├── karma.conf.js
 ├── src/
 │   ├── index.html
 │   ├── main.ts
 │   ├── styles.scss
 │   └── app/
 │       ├── app.component.*
-│       ├── app.config.ts
-│       ├── app.routes.ts
+│       ├── app.config.ts / app.routes.ts
 │       ├── core/
+│       │   └── services/ (IndexedDB, Auth, etc.)
 │       ├── modules/
 │       │   ├── auth/
 │       │   └── home/
 │       │       ├── components/
 │       │       │   ├── banner/
-│       │       │   └── class-card/
+│       │       │   ├── class-card/
+│       │       │   ├── card-reservation/
+│       │       │   └── (otros componentes UI)
 │       │       ├── interfaces/
-│       │       ├── pages/
-│       │       └── services/
+│       │       ├── pages/ (main, reservations, etc.)
+│       │       └── services/ (class-store, etc.)
 │       └── shared/
 │           └── components/
-│               └── navbar/
+│               ├── navbar/
+│               ├── center-card/
+│               └── confirm-dialog/
 │
 └── assets/
-		└── images/
-				└── hero-fitness.jpg
+	└── images/ (hero-fitness.jpg, promo*.svg)
 ```
 
-## Simulación de datos
+## 🗃️ Simulación de datos (IndexedDB)
 
-El proyecto utiliza una simulación de datos para mostrar información de clases, banners y otros elementos en la interfaz. Esta simulación se realiza mediante servicios e interfaces ubicados en:
+Al iniciar, el servicio de IndexedDB realiza un seed con datos mock (centros, clases, usuarios, reservas). Estos datos se modularizaron en archivos independientes:
 
-- `src/app/modules/home/services/`: Servicios que gestionan y proveen los datos simulados.
-- `src/app/modules/home/interfaces/`: Definición de las interfaces de los datos simulados.
+- `mock-centers.ts`
+- `mock-classes.ts`
+- `mock-users.ts`
 
-Actualmente, los datos no provienen de una API real, sino que se generan y gestionan localmente en el IndexedDB para facilitar el desarrollo y pruebas de la interfaz.
+El flujo de reservas actualiza dinámicamente `currentEnrollment` de cada clase y previene duplicados por usuario. Todo se persiste en stores de IndexedDB para mantener estado entre recargas.
+
+Interfaces y servicios clave:
+- `modules/home/interfaces/`: Modelos de clase, centro, reserva, etc.
+- `modules/home/services/class-store.service.ts`: Gestión reactiva (Signals) de clases y reservas.
+- `core/services/indexed-db.service.ts`: Capa de persistencia y seed inicial.
+
+## 📜 Requisitos previos
+
+- Node.js >= 18.19 (recomendado LTS 20+)
+- Navegador Chrome o Chromium instalado (para Karma)
 
 ## Comandos útiles
 
@@ -80,25 +96,33 @@ Actualmente, los datos no provienen de una API real, sino que se generan y gesti
 	```bash
 	ng build
 	```
-- 🧪 **Ejecutar pruebas unitarias:**
+- 🧪 **Pruebas unitarias:** (requiere Chrome / Chromium)
 	```bash
 	ng test
 	```
 
 ## Decisiones de Diseño
 
-- **Componentes Standalone**: Usando componentes standalone de Angular 19 para mejor tree-shaking
-- **Signals**: Aprovechando Angular Signals para gestión de estado reactiva
-- **Material Design**: UI consistente con componentes de Angular Material
-- **Notificaciones Toast**: Feedback claro para todas las acciones del usuario
+- **Standalone Components** para reducir boilerplate y mejorar tree-shaking.
+- **Signals** para estado local reactivo y derivaciones computadas sin NgRx por ahora.
+- **IndexedDB** para persistir y simular backend sin depender de APIs externas durante el desarrollo.
+- **Guards de Auth** para proteger rutas y redirigir según estado de sesión.
+- **Material Design + SCSS** para consistencia visual y fácil theming.
+- **Toast/Dialogs** centralizados para UX clara (confirmaciones y feedback de reservas).
 
 ## Características de Rendimiento
 
-- **Lazy Loading**: División de código basada en rutas
-- **Estrategia OnPush**: Detección de cambios optimizada
-- **Valores Computados**: Propiedades computadas reactivas con Signals
-- **Tree Shaking**: Tamaño de bundle optimizado con componentes standalone
+- **Lazy Loading** en módulos de características.
+- **Signals computados** para derivar vistas sin recalcular costoso.
+- **Tree Shaking** + Standalone = bundles más pequeños.
+- **Actualizaciones granulares** vía señales en lugar de stores globales pesados.
 
 ## Recursos adicionales
 
-Para más información sobre Angular CLI, visita la [documentación oficial](https://angular.dev/tools/cli).
+- Documentación Angular: https://angular.dev/
+- Angular CLI: https://angular.dev/tools/cli
+- Angular Material: https://material.angular.io/
+
+---
+
+Si necesitas correr pruebas en CI más adelante, se puede añadir un launcher headless específico; hoy se usa configuración básica (Chrome). Solicítalo cuando se requiera.

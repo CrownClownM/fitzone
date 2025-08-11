@@ -1,0 +1,13 @@
+.loader {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  color: var(--text-muted);
+}
+.loader.centered {
+  align-items: center;
+  justify-content: center;
+}
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg);} to { transform: rotate(360deg);} }
+.message { font-size: .9rem; }

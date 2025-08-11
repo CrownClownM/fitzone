@@ -13,6 +13,10 @@ export class ToastService {
         verticalPosition: "top"
     };
 
+    /**
+     * Muestra un mensaje de éxito.
+     * @param message Mensaje a mostrar.
+     */
     showSuccess(message: string) {
         this._snackBar.open(message, undefined, {
             ...this._defaultConfig,
@@ -20,6 +24,10 @@ export class ToastService {
         });
     }
 
+    /**
+     * Muestra un mensaje de error.
+     * @param message Mensaje a mostrar.
+     */
     showError(message: string) {
         this._snackBar.open(message, undefined, {
             ...this._defaultConfig,
@@ -27,6 +35,10 @@ export class ToastService {
         });
     }
 
+    /**
+     * Muestra un mensaje de información.
+     * @param message Mensaje a mostrar.
+     */
     showInfo(message: string) {
         this._snackBar.open(message, undefined, {
             ...this._defaultConfig,
@@ -34,6 +46,10 @@ export class ToastService {
         });
     }
 
+    /**
+     * Muestra un mensaje de advertencia.
+     * @param message Mensaje a mostrar.
+     */
     showWarning(message: string) {
         this._snackBar.open(message, undefined, {
             ...this._defaultConfig,
